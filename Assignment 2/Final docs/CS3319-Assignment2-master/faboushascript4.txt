@@ -1,0 +1,25 @@
+USE faboushaassign2db;
+SELECT * FROM doctorspatients;
+SELECT * FROM doctor;
+SELECT * FROM patient;
+SELECT * FROM hospital;
+
+
+CREATE VIEW patientheaddoc AS SELECT patient.firstname AS patient_firstname, patient.lastname AS patient_lastname, doctor.lastname AS doctor_lastname, hospital.Name AS hospital_name FROM patient, doctor, assigned, hospital WHERE (doctor.docLicenseNumber = assigned.DocLicense) AND (doctor.docLicenseNumber = headdocID) AND (OHIP = OHIPnum) AND (headDocStartDate > '1995-31-12');
+SELECT * FROM patientheaddoc;
+
+SELECT * FROM doctor;
+SELECT * FROM assigned;
+
+DELETE FROM doctor WHERE lastname = "Clooney";
+SELECT * FROM doctor;
+SELECT * FROM assigned;
+SELECT * FROM doctor;
+
+DELETE FROM doctor WHERE Specialty = "Surgeon";
+-- there is a foreign key in this table so it can't be deleted because its used elsewhere
+-- there must always be a head for the hospital so this cannot be deleted (think about the ALL participation)
+-- ^
+
+
+

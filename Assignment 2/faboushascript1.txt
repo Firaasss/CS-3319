@@ -1,0 +1,17 @@
+SHOW DATABASES;
+DROP DATABASE IF EXISTS faboushaassign2db;
+CREATE DATABASE faboushaassign2db;
+USE faboushaassign2db;
+GRANT USAGE ON *.* TO 'ta'@'localhost';
+DROP USER 'ta'@'localhost';
+CREATE USER 'ta'@'localhost' IDENTIFIED BY 'cs3319';
+GRANT ALL PRIVILEGES ON faboushaassign2db.* TO 'ta'@'localhost';
+FLUSH PRIVILEGES;
+SHOW TABLES;
+CREATE TABLE doctor (docLicenseNumber CHAR(4) NOT NULL, specialty VARCHAR(30), firstname VARCHAR(20), lastname VARCHAR(20), dateLicensed VARCHAR(20), worksForHospitalID CHAR(3), PRIMARY KEY (docLicenseNumber));
+CREATE TABLE patient (OHIPnum INT(9) NOT NULL, firstname VARCHAR(20), lastname VARCHAR(20), PRIMARY KEY(OHIPnum));
+CREATE TABLE hospital (hospitalID CHAR(3) NOT NULL, name VARCHAR(20), city VARCHAR(20), province CHAR(2), numberBeds INT, headDocStartDate VARCHAR(20), headdocID CHAR(4), PRIMARY KEY (hospitalID), FOREIGN KEY (headdocID) REFERENCES doctor(docLicenseNumber) ON DELETE RESTRICT);
+ALTER TABLE doctor ADD FOREIGN KEY (worksForHospitalID) REFERENCES hospital(hospitalID);
+CREATE TABLE doctorspatients (patientOHIP INT(9) NOT NULL, doctorLicense CHAR(4) NOT NULL, PRIMARY KEY(patientOHIP, doctorLicense), FOREIGN KEY(patientOHIP) REFERENCES patient(OHIPnum));
+ALTER TABLE doctorspatients ADD FOREIGN KEY (doctorLicense) REFERENCES doctor(docLicenseNumber);
+SHOW TABLES;

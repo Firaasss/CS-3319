@@ -1,0 +1,37 @@
+USE faboushaassign2db;
+
+-- Query 1
+SELECT lastname FROM patient;
+
+-- Query 2
+SELECT DISTINCT lastname FROM patient;
+
+-- Query 3
+SELECT * FROM doctor ORDER BY lastname ASC;
+
+-- Query 4
+SELECT name, hospitalID FROM hospital WHERE numberBeds > 1500;
+
+-- Query 5
+SELECT doctor.lastname, doctor.firstname FROM doctor INNER JOIN hospital ON doctor.worksForHospitalID = hospital.hospitalID WHERE hospital.name = "St. Joseph";
+
+-- Query 6
+SELECT firstname, lastname FROM patient WHERE lastname LIKE "g%";
+
+-- Query 7
+SELECT patient.firstname, patient.lastname FROM (doctorspatients INNER JOIN doctor ON doctorspatients.doctorLicense = doctor.docLicenseNumber) INNER JOIN patient ON patient.OHIPnum = doctorspatients.patientOHIP WHERE doctor.lastname = "Clooney";
+
+-- Query 8
+SELECT hospital.name, hospital.city, doctor.lastname FROM hospital, doctor WHERE hospital.headdocid = doctor.docLicenseNumber;
+
+-- Query 9
+SELECT SUM(numberBeds) AS "Total Number of Beds" FROM hospital;
+
+-- Query 10
+SELECT patient.firstname AS "patientname", doctor.firstname AS "doctorname" FROM patient JOIN treats ON doctorspatients.patientOHIP=patient.OHIPnum JOIN doctor ON doctorspatients.doctorLicense=doctor.docLicenseNumber JOIN hospital ON doctor.docLicenseNumber=hospital.headdocid;	
+
+-- Query 11
+SELECT doctor.firstname, doctor.lastname from doctor INNER JOIN hospital ON hospital.name = "Victoria" WHERE doctor.specialty = "Surgeon";
+
+-- Query 12
+SELECT * from doctorspatients INNER JOIN doctor ON doctorLicense = docLicenseNumber WHERE patientOHIP = NULL;

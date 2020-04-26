@@ -1,0 +1,71 @@
+-- Laura's Script 2 File
+
+-- load data from a file
+USE faboushadb;
+SELECT * FROM patient;
+LOAD DATA LOCAL INFILE 'loaddatafall2019.txt' INTO TABLE patient FIELDS TERMINATED BY ',';
+
+-- insert another patient
+
+INSERT INTO patient(ohip,firstname,lastname) VALUES ('222444555','Firas', 'Ab');
+SELECT * FROM patient;
+
+-- insert doctors 
+ 
+SELECT * FROM doctor;
+INSERT INTO doctor (docLicNum,firstName,lastName,speciality,licenseDate) VALUES ('RD34','Bernie', 'Kavorikian', 'Urologist','1980-9-9');
+INSERT INTO doctor (docLicNum,firstName,lastName,speciality,licenseDate) VALUES ('GD56','Joey', 'Shabado', 'Padiatrist','1960-6-24');
+INSERT INTO doctor (docLicNum,firstName,lastName,speciality,licenseDate) VALUES ('HT45','Ross', 'Clooney', 'Surgeon','1987-6-20');
+INSERT INTO doctor (docLicNum,firstName,lastName,speciality,licenseDate) VALUES ('YT67','Ben', 'Spock', 'Pediatritian','1955-2-20');
+INSERT INTO doctor (docLicNum,firstName,lastName,speciality,licenseDate) VALUES ('JK78','Mandy', 'Webster', 'Surgeon','1990-8-8');
+INSERT INTO doctor (docLicNum,firstName,lastName,speciality,licenseDate) VALUES ('SE66','Colleen', 'Aziz', 'Surgeon','1989-8-24');
+INSERT INTO doctor (docLicNum,firstName,lastName,speciality,licenseDate) VALUES ('JM33','Phil', 'McGraw', 'Urologist','1980-9-9');
+SELECT * FROM doctor;
+
+-- insert hospitals 
+
+SELECT * FROM hospital;
+INSERT INTO hospital VALUES ('BBC', 'St. Joseph', 'London','On', 1000, 'GD56', '1999-9-10');
+INSERT INTO hospital VALUES ('ABC', 'Victoria', 'London','On', 1600, 'YT67', '1997-12-7');
+INSERT INTO hospital VALUES ('DDE', 'Victoria', 'Victoria', 'BC', 1200, 'SE66', '1994-12-5');
+SELECT * FROM hospital;
+
+-- insert who treats whom
+
+SELECT * FROM treats;
+INSERT INTO treats VALUES ('GD56', '110112113');
+INSERT INTO treats VALUES ('YT67', '111222111');
+INSERT INTO treats VALUES ('SE66', '111222333');
+INSERT INTO treats VALUES ('YT67', '111222333');
+INSERT INTO treats VALUES ('JK78', '111222333');
+INSERT INTO treats VALUES ('GD56', '333444555');
+INSERT INTO treats VALUES ('HT45', '444555666');
+INSERT INTO treats VALUES ('JK78', '444555666');
+INSERT INTO treats VALUES ('YT67', '667766777');
+INSERT INTO treats VALUES ('JK78', '667766777');
+INSERT INTO treats VALUES ('GD56', '667766777');
+INSERT INTO treats VALUES ('JM33', '222444555');
+SELECT * FROM treats;
+
+-- assign doctors to hospitals 
+
+SELECT * FROM doctor;
+UPDATE doctor SET hosWorksAt = 'BBC' WHERE docLicNum = 'RD34';
+UPDATE doctor SET hosWorksAt = 'BBC' WHERE docLicNum = 'GD56';
+UPDATE doctor SET hosWorksAt = 'DDE' WHERE docLicNum = 'HT45';
+UPDATE doctor SET hosWorksAt = 'DDE' WHERE docLicNum = 'YT67';
+UPDATE doctor SET hosWorksAt = 'BBC' WHERE docLicNum = 'JK78';
+UPDATE doctor SET hosWorksAt = 'ABC' WHERE docLicNum = 'SE66';
+UPDATE doctor SET hosWorksAt = 'ABC' WHERE docLicNum = 'JM33';
+SELECT * FROM doctor;
+
+-- change a last name
+SELECT * FROM patient;
+UPDATE patient SET lastname = 'Brown' WHERE ohip='111222111';
+SELECT * FROM patient;
+
+-- change a doctor for the patients
+
+SELECT * FROM treats;
+UPDATE treats SET docLicNum = (SELECT docLicNum FROM doctor WHERE lastname = 'Aziz') WHERE docLicNum = (SELECT docLicNum FROM doctor WHERE lastname = 'Spock');
+SELECT * FROM treats;

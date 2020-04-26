@@ -1,0 +1,22 @@
+-- Firas script 1 file
+
+-- create the assignment 2 database
+SHOW DATABASES;
+DROP DATABASE IF EXISTS faboushadb;
+CREATE DATABASE faboushadb;
+USE faboushadb;
+
+-- allow the t.a. to see the files
+DROP USER 'ta'@'localhost';
+CREATE USER 'ta'@'localhost' IDENTIFIED BY 'cs3319';
+GRANT ALL PRIVILEGES ON faboushadb.* TO 'ta'@'localhost';
+FLUSH PRIVILEGES;
+
+-- create the tables
+SHOW TABLES;
+CREATE TABLE patient(ohip CHAR(9) NOT NULL, firstname VARCHAR(20), lastname VARCHAR(20), PRIMARY KEY (ohip));
+CREATE TABLE hospital(hosCode CHAR(3) NOT NULL, name VARCHAR(20),city VARCHAR(20),province CHAR(2), numBeds INT,headDoc CHAR(4),headDocStartDate DATE, PRIMARY KEY (hosCode));
+CREATE TABLE doctor (docLicNum CHAR(4) NOT NULL,firstName VARCHAR(20), lastName VARCHAR(20), speciality VARCHAR(30), licenseDate DATE, hosWorksAt CHAR(3), PRIMARY KEY (docLicNum), FOREIGN KEY (hosWorksAt) REFERENCES hospital(hosCode));
+ALTER TABLE hospital ADD FOREIGN KEY (headDoc) REFERENCES doctor(docLicNum) ON DELETE RESTRICT;
+CREATE TABLE treats (ohip CHAR(9) NOT NULL, docLicNum CHAR(4) NOT NULL, FOREIGN KEY (ohip) REFERENCES patient(ohip), FOREIGN KEY (docLicNum) REFERENCES doctor(docLicNum) ON DELETE CASCADE, PRIMARY KEY (ohip,docLicNum) );
+SHOW TABLES;

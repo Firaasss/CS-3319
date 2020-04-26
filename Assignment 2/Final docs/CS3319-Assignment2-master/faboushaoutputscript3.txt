@@ -1,0 +1,126 @@
+Warning: Using a password on the command line interface can be insecure.
+--------------
+SELECT lastname FROM patient
+--------------
+
++--------------+
+| lastname     |
++--------------+
+| NULL         |
+| Gellar       |
+| Brown        |
+| Green        |
+| Aboushamalah |
+| Gellar       |
+| Gellar       |
+| Bing         |
++--------------+
+8 rows in set (0.00 sec)
+
+--------------
+SELECT DISTINCT lastname FROM patient
+--------------
+
++--------------+
+| lastname     |
++--------------+
+| NULL         |
+| Gellar       |
+| Brown        |
+| Green        |
+| Aboushamalah |
+| Bing         |
++--------------+
+6 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM doctor ORDER BY lastname ASC
+--------------
+
++------------------+--------------+-----------+------------+--------------+--------------------+
+| docLicenseNumber | specialty    | firstname | lastname   | dateLicensed | worksForHospitalID |
++------------------+--------------+-----------+------------+--------------+--------------------+
+| SE66             | Surgeon      | Colleen   | Aziz       | Aug 24, 1989 | ABC                |
+| SE55             | Surgeon      | Gerard    | Butler     | Aug 25, 1988 | ABC                |
+| HT45             | Surgeon      | Ross      | Clooney    | Jun 20, 1987 | DDE                |
+| RD34             | Urologist    | Bernie    | Kavorikian | Sept 9, 1980 | BBC                |
+| GD56             | Podiatrist   | Joey      | Shabado    | Jun 24, 1960 | BBC                |
+| YT67             | Pediatrician | Ben       | Spock      | Feb 20, 1955 | DDE                |
+| JK78             | Surgeon      | Mandy     | Webster    | Aug 8, 1990  | BBC                |
++------------------+--------------+-----------+------------+--------------+--------------------+
+7 rows in set (0.00 sec)
+
+--------------
+SELECT name, hospitalID FROM hospital WHERE numberBeds > 1500
+--------------
+
++----------+------------+
+| name     | hospitalID |
++----------+------------+
+| Victoria | ABC        |
++----------+------------+
+1 row in set (0.00 sec)
+
+--------------
+SELECT doctor.lastname, doctor.firstname FROM doctor INNER JOIN hospital ON doctor.worksForHospitalID = hospital.hospitalID WHERE hospital.name = "St. Joseph"
+--------------
+
++------------+-----------+
+| lastname   | firstname |
++------------+-----------+
+| Shabado    | Joey      |
+| Webster    | Mandy     |
+| Kavorikian | Bernie    |
++------------+-----------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT firstname, lastname FROM patient WHERE lastname LIKE "g%"
+--------------
+
++-----------+----------+
+| firstname | lastname |
++-----------+----------+
+| Bill      | Gellar   |
+| Jon       | Green    |
+| Colleen   | Gellar   |
+| Sean      | Gellar   |
++-----------+----------+
+4 rows in set (0.00 sec)
+
+--------------
+SELECT patient.firstname, patient.lastname FROM (doctorspatients INNER JOIN doctor ON doctorspatients.doctorLicense = doctor.docLicenseNumber) INNER JOIN patient ON patient.OHIPnum = doctorspatients.patientOHIP WHERE doctor.lastname = "Clooney"
+--------------
+
++-----------+--------------+
+| firstname | lastname     |
++-----------+--------------+
+| Suzi      | Brown        |
+| Jon       | Green        |
+| Firas     | Aboushamalah |
+| Sean      | Gellar       |
+| Scotty    | Bing         |
++-----------+--------------+
+5 rows in set (0.00 sec)
+
+ERROR 1064 (42000) at line 25: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'This can't be done because you have not given instructions to make doctors the c' at line 1
+--------------
+This can't be done because you have not given instructions to make doctors the chairs!
+
+-- Query 9
+SELECT SUM(numberBeds) AS "Total Number of Beds" FROM hospital;
+
+-- Query 10
+This can't be done because you have not given instructions to make doctors the chairs!
+
+
+SELECT doctor.firstname, doctor.lastname from doctor INNER JOIN hospital ON hospital.name = "Victoria" WHERE doctor.specialty = "Surgeon"
+--------------
+
+--------------
+SELECT * from doctorspatients INNER JOIN doctor ON doctorLicense = docLicenseNumber WHERE patientOHIP = NULL
+--------------
+
+Empty set (0.00 sec)
+
+Bye
